@@ -24,7 +24,7 @@ public class TarjetaRepositoryImpl implements TarjetaRepository {
 
 	@Override
 	public Optional<Tarjeta> findById(Integer id) {
-		return null;
+		return Optional.ofNullable(tarjetaMapper.findById(id));
 	}
 
 	@Override

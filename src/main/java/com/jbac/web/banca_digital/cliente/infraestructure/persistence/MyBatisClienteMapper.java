@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -29,8 +32,20 @@ public interface MyBatisClienteMapper {
 	public int update(Cliente cliente);
 	
 	@Select("SELECT * FROM cliente WHERE id = #{id}")
+	@Results({
+			@Result(property = "tarjetas", 
+					column="id",
+					javaType= List.class,
+					many = @Many(select="com.jbac.web.banca_digital.tarjeta.infraestructure.persitence.MyBatisTarjetaMapper.findByIdCliente"))
+	})
 	public Cliente findById(Integer id);
 	
 	@Select("SELECT * FROM cliente WHERE documento = #{documento}")
+	@Results({
+		@Result(property = "tarjetas", 
+				column="id",
+				javaType= List.class,
+				many = @Many(select="com.jbac.web.banca_digital.tarjeta.infraestructure.persitence.MyBatisTarjetaMapper.findByIdCliente"))
+})
 	public Cliente findByDocumento(String documento);
 }
